@@ -36,3 +36,10 @@ class testGenericTrade(unittest.TestCase):
         t.set_discount_curve('EUR OIS')
         s = t.get_serialized()
         self.assertEqual(s[2], '20170710|EUR|-597579.16011678|EUR OIS|20170710|EUR|-10000000|EUR OIS')
+
+    def test_add_tag(self):
+        t = GenericTrade(self.rm3d_list_cap)
+        t.add_tag('Test1', 'Test2')
+        s = t.get_serialized()
+        self.assertEqual(s[16], 'Portfolio|BLB|Test1|Test2')
+    
