@@ -1,4 +1,3 @@
-from numpy import nan, isnan    
 from constants import field_index
 
 class GenericTrade:
@@ -13,7 +12,7 @@ class GenericTrade:
         self.trade_data[self.ignore_fx_index] = flag
     
     def set_discount_curve(self, curve):
-        if not isnan(self.discount_curve_index):
+        if self.discount_curve_index:
             if self.trade_type == 'cashFlow':
                 cf_list = self.trade_data[self.discount_curve_index].split('|')
                 cf_list[3::4] = [curve] * int(len(cf_list)/4)
