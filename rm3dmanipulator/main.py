@@ -1,6 +1,6 @@
 from rm3d_reader import RM3DReader
 from rm3d_writer import RM3DWriter
-from trade import GenericTrade
+from rm3d_trade import GenericRM3DTrade
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -16,7 +16,7 @@ rm3d_list = reader.process(rm3d_string)
 
 # generate trade list
 logging.debug('generating trade list ...')
-trade_list = [GenericTrade(t) for t in rm3d_list]
+trade_list = [GenericRM3DTrade(t) for t in rm3d_list]
 
 # reset ignore_fx_flag
 logging.debug('resetting ignore_fx flag ...')

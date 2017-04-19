@@ -1,6 +1,6 @@
 from constants import field_index
 
-class GenericTrade:
+class GenericRM3DTrade:
     def __init__(self, trade_data):
         self.trade_data = list(trade_data)
         self.trade_type = self.trade_data[0]

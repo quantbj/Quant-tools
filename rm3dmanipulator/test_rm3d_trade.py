@@ -1,7 +1,7 @@
-from trade import GenericTrade
+from rm3d_trade import GenericRM3DTrade
 import unittest
 
-class testGenericTrade(unittest.TestCase):
+class testGenericRM3DTrade(unittest.TestCase):
 
     rm3d_list_cap = \
                 ['cap',	'VAL_CAP_C&F:2526:0',	'-1500000.000000',	
@@ -13,32 +13,32 @@ class testGenericTrade(unittest.TestCase):
 
  
     def test_deserialize_serialize(self):
-        t = GenericTrade(self.rm3d_list_cap)
+        t = GenericRM3DTrade(self.rm3d_list_cap)
         s = t.get_serialized()
         self.assertEqual(s[0], 'cap')
         self.assertEqual(s[7], '4')
 
     def test_set_ignore_fx(self):
-        t = GenericTrade(self.rm3d_list_cap)
+        t = GenericRM3DTrade(self.rm3d_list_cap)
         t.set_ignore_fx('0')
         s = t.get_serialized()
         self.assertEqual(self.rm3d_list_cap[17],'1')
         self.assertEqual(s[17], '0')
 
     def test_set_discount_curve(self):
-        t = GenericTrade(self.rm3d_list_cap)
+        t = GenericRM3DTrade(self.rm3d_list_cap)
         t.set_discount_curve('EUR OIS')
         s = t.get_serialized()
         self.assertEqual(s[26], 'EUR OIS')
 
     def test_set_discount_curve_cf(self):
-        t = GenericTrade(self.rm3d_list_cashflow)
+        t = GenericRM3DTrade(self.rm3d_list_cashflow)
         t.set_discount_curve('EUR OIS')
         s = t.get_serialized()
         self.assertEqual(s[2], '20170710|EUR|-597579.16011678|EUR OIS|20170710|EUR|-10000000|EUR OIS')
 
     def test_add_tag(self):
-        t = GenericTrade(self.rm3d_list_cap)
+        t = GenericRM3DTrade(self.rm3d_list_cap)
         t.add_tag('Test1', 'Test2')
         s = t.get_serialized()
         self.assertEqual(s[16], 'Portfolio|BLB|Test1|Test2')
