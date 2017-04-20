@@ -12,6 +12,6 @@ class FixedCashFlow:
             dc = env.get_discount_curve(self.ccy)
         
         df = dc.get_discount_factor(self.date)
-        
-        return df * self.amount
+
+        return df * self.amount * self.ccy.convert_one_to_pricing_currency(env, self.date)
         
