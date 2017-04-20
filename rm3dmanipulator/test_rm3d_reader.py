@@ -1,6 +1,7 @@
 import unittest
 from rm3d_reader import RM3DReader
 
+
 class TestWriter(unittest.TestCase):
     def test_1(self):
         s = 'START-OF-FILE\nDATEFORMAT=YYYYMMDD\nFIELDSEPARATOR=TAB\nSUBFIELDSEPARATOR=PIPE\nDECIMALSEPARATOR=PERIOD\nSTART-OF-DATA\n' + \
@@ -10,4 +11,3 @@ class TestWriter(unittest.TestCase):
         reader = RM3DReader()
         result = reader.process(s)
         self.assertEqual(result[0][0], 'cash')
-        

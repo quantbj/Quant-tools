@@ -6,5 +6,6 @@ class Ccy:
         fxc = env.get_fx_forward_curve(self.ccy)
         return fxc.get_forward_fx_rate(env, d)
 
+
 EUR = Ccy('EUR')
 USD = Ccy('USD')

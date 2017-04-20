@@ -3,12 +3,13 @@ from unittest.mock import Mock
 from datetime import date
 from ccy import Ccy
 
+
 class TestCcy(TestCase):
     def test_convert_one_to_pricing_currency(self):
         EUR = Ccy('EUR')
         USD = Ccy('USD')
-        pricing_date = date(2017,4,19)
-        d = date(2018,4,19)
+        pricing_date = date(2017, 4, 19)
+        d = date(2018, 4, 19)
 
         fxc = Mock()
         env = Mock()
@@ -19,5 +20,3 @@ class TestCcy(TestCase):
         usd_in_eur = USD.convert_one_to_pricing_currency(env, d)
 
         self.assertEqual(usd_in_eur, 0.95)
-
-
