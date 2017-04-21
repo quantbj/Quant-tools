@@ -1,4 +1,4 @@
-from ValuationService.forwardcurve import IRForwardCurve, FxForwardCurve
+from ValuationService.forwardcurve import IRForwardCurve, FXForwardCurve
 from ValuationService.ccy import EUR, USD
 
 standard_discount_curve = {
@@ -23,4 +23,4 @@ class Environment:
         return standard_discount_curve[self.pricing_currency]
 
     def get_fx_forward_curve(self, ccy):
-        return FxForwardCurve(self.pricing_currency, ccy)
+        return FXForwardCurve(self.pricing_currency, ccy)

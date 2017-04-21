@@ -1,6 +1,6 @@
 from ValuationService.environment import Environment
 from ValuationService.ccy import EUR, USD
-from ValuationService.forwardcurve import IRForwardCurve, FxForwardCurve
+from ValuationService.forwardcurve import IRForwardCurve, FXForwardCurve
 from datetime import date
 from unittest import TestCase
 from unittest.mock import Mock
@@ -26,7 +26,7 @@ class EnvTest(TestCase):
     def test_get_fx_forward_curve(self):
         env = Environment()
         env.set_pricing_currency(EUR)
-        fxEURUSD = FxForwardCurve(EUR, USD)
+        fxEURUSD = FXForwardCurve(EUR, USD)
 
         fxc = env.get_fx_forward_curve(USD)
         self.assertEqual(fxc, fxEURUSD)
