@@ -5,7 +5,7 @@ class IRForwardCurve(ValueObject):
     def __init__(self, ccy, name):
         pass
 
-class FxForwardCurve():
+class FxForwardCurve(ValueObject):
     def __init__(self, ccy_domestic, ccy_foreign):
         pass
     
