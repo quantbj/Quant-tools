@@ -1,6 +1,6 @@
 from ValuationService.environment import Environment
 from ValuationService.ccy import EUR, USD
-from CurvesService.forwardcurve import IRForwardCurve, FxForwardCurve
+from ValuationService.forwardcurve import IRForwardCurve, FxForwardCurve
 from datetime import date
 from unittest import TestCase
 from unittest.mock import Mock

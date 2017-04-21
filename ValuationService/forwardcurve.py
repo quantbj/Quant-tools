@@ -1,7 +1,5 @@
-# class ForwardCurve():
-#     def __init__(self, ccy, name):
-#         self.ccy = ccy
-#         self.name = name
+
+# TODO: Convert to generic value objects
 
 
 class IRForwardCurve():

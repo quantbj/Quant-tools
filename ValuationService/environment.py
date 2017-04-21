@@ -1,4 +1,4 @@
-from CurvesService.forwardcurve import IRForwardCurve, FxForwardCurve
+from ValuationService.forwardcurve import IRForwardCurve, FxForwardCurve
 from ValuationService.ccy import EUR, USD
 
 standard_discount_curve = {
