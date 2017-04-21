@@ -2,5 +2,7 @@ language: python
 python:
   - "3.4"
 # command to install dependencies
+install: 
+  - sudo pip3 install simple-value-object
 # command to run tests
 script: python run_tests.py
