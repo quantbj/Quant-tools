@@ -1,5 +1,5 @@
 
-from simple_value_object import ValueObject
+from Utils.simple_value_object.value_object import ValueObject
 from numpy import interp
 
 

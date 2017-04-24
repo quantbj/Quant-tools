@@ -1,6 +1,6 @@
 from ValuationService.trade import AbstractTrade
 from ValuationService.trade import FutureCashFlowTrade
-from ValuationService.utils import FixedCashFlow
+from ValuationService.cash_flow import FixedCashFlow
 from ValuationService.ccy import EUR, USD
 from datetime import date
 from unittest import TestCase
