@@ -1,4 +1,4 @@
-from Utils.simple_value_object.value_object import ValueObject
+from Utils.value_object import ValueObject
 
 
 class FixedCashFlow(ValueObject):

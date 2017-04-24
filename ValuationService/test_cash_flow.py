@@ -1,6 +1,6 @@
 from ValuationService.cash_flow import FixedCashFlow, FloatingCashFlow
-from ValuationService.date_utils import DatePeriod
 from ValuationService.ccy import EUR, USD
+from Utils.date_utils import DatePeriod
 from datetime import date
 from unittest import TestCase
 from unittest.mock import Mock

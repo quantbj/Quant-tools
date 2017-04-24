@@ -1,4 +1,4 @@
-from ValuationService.date_utils import DatePeriod
+from Utils.date_utils import DatePeriod
 from datetime import date
 from unittest import TestCase
 
