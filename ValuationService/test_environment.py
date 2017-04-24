@@ -30,3 +30,21 @@ class EnvTest(TestCase):
 
         fxc = env.get_fx_forward_curve(USD)
         self.assertEqual(fxc, fxEURUSD)
+
+    def test_add_curve(self):
+        env = Environment()
+        env.set_pricing_currency(EUR)
+        forward_curve = IRForwardCurve(EUR, 'Euribor-6m')
+        env.add_curve('EURIBOR06M', forward_curve)
+
+        self.assertEqual(forward_curve, env._forward_curves['EURIBOR06M'])
+
+    def test_get_index_forward_curve(self):
+        env = Environment()
+        env.set_pricing_currency(EUR)
+        forward_curve = IRForwardCurve(EUR, 'Euribor-6m')
+        env.add_curve('EURIBOR06M', forward_curve)
+
+        self.assertEqual(
+            forward_curve,
+            env.get_index_forward_curve('EURIBOR06M'))

@@ -1,7 +1,7 @@
 import unittest
 import sys
 
-modules = [ 'rm3dmanipulator', 'ValuationService']
+modules = ['rm3dmanipulator', 'ValuationService']
 
 if __name__ == "__main__":
     for mod in modules:
