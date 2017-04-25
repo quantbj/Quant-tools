@@ -86,6 +86,8 @@ class ValueObject(object):
     def hash(self):
         return hash(self.__class__) and hash(frozenset(self.__dict__.items()))
 
+    def __hash__(self):
+        return hash(self.__class__) and hash(frozenset(self.__dict__.items()))
 
 class ArgsSpec(object):
 

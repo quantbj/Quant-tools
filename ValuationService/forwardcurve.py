@@ -9,7 +9,7 @@ class IRForwardCurve(ValueObject):
 
 
 class IRDiscountFactorForwardCurve(IRForwardCurve):
-    def __init__(self, ccy, name, curve_date, discount_factors):
+    def __init__(self, discount_factors):
         pass
 
     def get_discount_factor(self, d):

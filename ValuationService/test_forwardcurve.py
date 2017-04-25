@@ -14,11 +14,7 @@ class TestForwardCurve(TestCase):
             (date(2017, 6, 24), 1.01),
             (date(2018, 6, 25), 0.99),
             (date(2019, 6, 25), 1.1)]
-        fc = IRDiscountFactorForwardCurve(
-            ccy=EUR,
-            name='Eonia',
-            curve_date=today,
-            discount_factors=dfs)
+        fc = IRDiscountFactorForwardCurve(discount_factors=dfs)
 
         df = fc.get_discount_factor(date(2017, 6, 24))
         self.assertEqual(1.01, df)
