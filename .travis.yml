@@ -1,12 +1,20 @@
 language: python
+sudo: false
+branches:
+  only:
+    - master
 python:
   - "3.4"
-virtualenv:
-  system_site_packages: true
-# command to install dependencies
+addons:
+  apt:
+    packages:
+    - libblas-dev
+    - liblapack-dev
 before_install:
- - sudo apt-get install -qq python-numpy python-scipy
-# command to run tests
+  - pip install -U pip setuptools wheel
+install:
+  - travis_wait travis_retry pip install -r requirements.txt
+#  - travis_retry python setup.py dev
 script: 
  - python run_unit_tests.py
  - python run_integration_tests.py
