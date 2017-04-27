@@ -1,4 +1,4 @@
-from ValuationService.trade import AbstractTrade
+# from ValuationService.trade import AbstractTrade
 from ValuationService.trade import FutureCashFlowTrade
 from ValuationService.cash_flow import FixedCashFlow
 from ValuationService.ccy import EUR, USD
@@ -8,25 +8,25 @@ from unittest.mock import Mock
 
 
 class TestTrade(TestCase):
-    def test_abstract_trade(self):
-        abstract_trade = AbstractTrade(dict())
-        env = None
-        self.assertRaises(
-            NotImplementedError,
-            abstract_trade.present_value,
-            env)
-        self.assertRaises(NotImplementedError, abstract_trade.required_curves)
+    # def test_abstract_trade(self):
+    #     abstract_trade = AbstractTrade(dict())
+    #     env = None
+    #     self.assertRaises(
+    #         NotImplementedError,
+    #         abstract_trade.present_value,
+    #         env)
+    #     self.assertRaises(NotImplementedError, abstract_trade.required_curves)
 
-    def test_FutureCashFlowTrade_1(self):
-        data_dict_wrong = {'cash flows wrong': 0}
+    # def test_FutureCashFlowTrade_1(self):
+    #     data_dict_wrong = {'cash flows wrong': 0}
 
-        self.assertRaises(AssertionError, FutureCashFlowTrade, data_dict_wrong)
+    #     self.assertRaises(AssertionError, FutureCashFlowTrade, data_dict_wrong)
 
     def test_FutureCashFlowTrade_2(self):
         d1 = date(2018, 1, 1)
         d2 = date(2019, 1, 1)
-        data_dict = {'cash_flows': [FixedCashFlow(d1, 100, EUR),
-                                    FixedCashFlow(d2, 200, EUR)]}
+        cash_flows = [FixedCashFlow(d1, 100, EUR),
+                      FixedCashFlow(d2, 200, EUR)]
         dc = Mock()
         env = Mock()
         fxc = Mock()
@@ -39,7 +39,7 @@ class TestTrade(TestCase):
             side_effect=lambda d: discount_factors[d])
         env.get_discount_curve = Mock(return_value=dc)
 
-        cf_trade = FutureCashFlowTrade(data_dict)
+        cf_trade = FutureCashFlowTrade(cash_flows)
         pv = cf_trade.present_value(env)
 
         self.assertEqual(pv, 100 * 0.9 + 200 * 0.8)
@@ -47,8 +47,8 @@ class TestTrade(TestCase):
     def test_FutureCashFlowTrade_3(self):
         d1 = date(2018, 1, 1)
         d2 = date(2019, 1, 1)
-        data_dict = {'cash_flows': [FixedCashFlow(d1, 100, EUR),
-                                    FixedCashFlow(d2, 200, USD)]}
+        cash_flows = [FixedCashFlow(d1, 100, EUR),
+                      FixedCashFlow(d2, 200, USD)]
         dc = Mock()
         env = Mock()
         fxcEUR = Mock()
@@ -64,7 +64,7 @@ class TestTrade(TestCase):
             side_effect=lambda d: discount_factors[d])
         env.get_discount_curve = Mock(return_value=dc)
 
-        cf_trade = FutureCashFlowTrade(data_dict)
+        cf_trade = FutureCashFlowTrade(cash_flows)
         pv = cf_trade.present_value(env)
 
         self.assertEqual(pv, 100 * 0.9 + 200 * 0.8 * 0.95)

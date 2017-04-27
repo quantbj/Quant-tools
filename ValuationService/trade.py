@@ -1,22 +1,21 @@
-class AbstractTrade:
-    def __init__(self, data_dict):
-        self.data_dict = data_dict
-
-    def present_value(self, env):
-        raise NotImplementedError()
-
-    def required_curves(self):
-        raise NotImplementedError()
+from Utils.value_object import ValueObject
 
 
-class FutureCashFlowTrade(AbstractTrade):
-    def __init__(self, data_dict):
-        super().__init__(data_dict)
-        assert('cash_flows' in self.data_dict)
+class CompoundTrade(ValueObject):
+    def __init__(self, constituent_list):
+        pass
 
     def present_value(self, env):
         pv = 0.0
-        for c in self.data_dict['cash_flows']:
+        for c in self.constituent_list:
             pv = pv + c.present_value(env)
 
         return pv
+
+
+class FutureCashFlowTrade(CompoundTrade):
+    pass
+
+
+class IRCapTrade(CompoundTrade):
+    pass

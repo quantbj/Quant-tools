@@ -13,6 +13,7 @@ class Environment:
         self._pricing_currency = EUR
         self._ir_forward_curves = dict()
         self._discount_curves = dict()
+        self._ir_caplet_vol_surface = dict()
 
     def set_pricing_currency(self, ccy):
         self._pricing_currency = ccy
@@ -40,3 +41,9 @@ class Environment:
 
     def get_ir_index_forward_curve(self, index):
         return self._ir_forward_curves[index]
+
+    def add_caplet_vol_surface(self, index, volatility_surface):
+        self._ir_caplet_vol_surface[index] = volatility_surface
+
+    def get_caplet_vol_surface(self, index):
+        return self._ir_caplet_vol_surface[index]
