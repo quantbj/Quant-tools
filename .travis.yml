@@ -3,6 +3,7 @@ python:
   - "3.4"
 # command to install dependencies
 install: 
+ - pip install scipy
 # command to run tests
 script: 
  - python run_unit_tests.py
