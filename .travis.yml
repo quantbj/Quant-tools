@@ -1,9 +1,11 @@
 language: python
 python:
   - "3.4"
+virtualenv:
+  system_site_packages: true
 # command to install dependencies
-install:
-    - sudo apt-get install -qq python-numpy python-scipy
+before_install:
+ - sudo apt-get install -qq python-numpy python-scipy
 # command to run tests
 script: 
  - python run_unit_tests.py
