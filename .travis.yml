@@ -10,6 +10,7 @@ addons:
     packages:
     - libblas-dev
     - liblapack-dev
+    - gfortran
 #before_install:
 #  - pip install -U pip setuptools wheel
 install:
