@@ -47,12 +47,12 @@ class FloatingCashFlow(ValueObject):
             * self.forward_period.get_duration() / 360
 
 
-class PlainVanillaCapletSLN(ValueObject):
+class GenericCapletFloorlet(ValueObject):
     def __init__(self, index, fixing_date, forward_period, pay_date,
                  nominal, ccy, strike, shift, discount_curve=None):
         pass
 
-    def present_value(self, env):
+    def compute_d1_d2_df_fr_dcf(self, env):
         assert(self.fixing_date > env.get_pricing_date())
 
         dc = self.discount_curve if self.discount_curve else env.get_discount_curve(
@@ -67,11 +67,19 @@ class PlainVanillaCapletSLN(ValueObject):
 
         vol_surf = env.get_caplet_vol_surface(self.index)
         sigma = vol_surf.get_vol(tenor=T, strike=self.strike)
+        dcf = self.index.dcc.dcf(self.forward_period)
 
         d1 = (log((fr + self.shift) / (self.strike + self.shift)) +
               sigma**2 * T / 2) / (sigma * sqrt(T))
         d2 = d1 - sigma * sqrt(T)
 
-        pv = self.index.dcc.dcf(self.forward_period) * self.nominal * df * \
+        return (d1, d2, df, fr, dcf)
+
+
+class PlainVanillaCapletSLN(GenericCapletFloorlet):
+    def present_value(self, env):
+        (d1, d2, df, fr, dcf) = self.compute_d1_d2_df_fr_dcf(env)
+        pv = dcf * self.nominal * df * \
             ((fr + self.shift) * phi(d1) - (self.strike + self.shift) * phi(d2))
+
         return pv

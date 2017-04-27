@@ -1,9 +1,10 @@
 from Utils.value_object import ValueObject
 
 
-class DatePeriod(ValueObject):
+class DatePeriod():
     def __init__(self, start, end):
-        pass
+        self.start = start
+        self.end = end
 
     def get_duration(self):
         return (self.end - self.start).days

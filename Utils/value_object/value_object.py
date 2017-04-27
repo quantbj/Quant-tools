@@ -66,7 +66,7 @@ class ValueObject(object):
 
         check_class_are_initialized()
         assign_instance_arguments()
-        check_invariants()
+        #check_invariants()
 
         return self
 

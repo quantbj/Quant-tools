@@ -10,7 +10,7 @@ from ValuationService.trade import IRCapTrade
 from Utils.date_utils import DatePeriod
 from datetime import date
 
-EXPECTED_CAP_PV = 2308.594078374
+EXPECTED_PV_PLAIN_VANILLA_CAP = 2308.594078374
 
 
 class IntTestCapPricing(TestCase):
@@ -69,7 +69,6 @@ class IntTestCapPricing(TestCase):
     def test_capfloor_pricing(self):
         caplets = self.generate_caplets(env=self.env, n_caplets=3, strike=0.0)
         cap = IRCapTrade(caplets)
-
         pv = cap.present_value(self.env)
 
-        self.assertAlmostEqual(EXPECTED_CAP_PV, pv)
+        self.assertAlmostEqual(EXPECTED_PV_PLAIN_VANILLA_CAP, pv)
