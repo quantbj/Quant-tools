@@ -2,10 +2,8 @@ language: python
 python:
   - "3.4"
 # command to install dependencies
-before_install:
-    - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
 install:
-    - python setup.py install
+    - sudo apt-get install -qq python-numpy python-scipy
 # command to run tests
 script: 
  - python run_unit_tests.py
