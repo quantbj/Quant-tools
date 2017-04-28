@@ -5,14 +5,13 @@ branches:
     - master
 python:
   - "3.4"
-addons:
-  apt:
-    packages:
-    - libblas-dev
-    - liblapack-dev
-    - gfortran
+# addons:
+#   apt:
+#     packages:
+#     - libblas-dev
+#     - liblapack-dev
+#     - gfortran
 install:
-#  - travis_wait 20 pip install -r requirements.txt > /dev/null
   - pip install --upgrade pip setuptools wheel
   - pip install --only-binary=numpy,scipy numpy scipy
   - pip install python-dateutil
