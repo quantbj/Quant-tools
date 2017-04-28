@@ -1,16 +1,9 @@
 from ValuationService.forwardcurve import IRForwardCurve, FXForwardCurve
-from ValuationService.ccy import EUR, USD
-
-standard_discount_curve = {
-    EUR: IRForwardCurve(EUR, 'Eonia'),
-    USD: IRForwardCurve(USD, 'OIS')}
-
-
-# TODO: Register forward curves with env created elsewhere
+from ValuationService.ccy import EUR
 
 class Environment:
-    def __init__(self):
-        self._pricing_currency = EUR
+    def __init__(self, pricing_currency=EUR):
+        self._pricing_currency = pricing_currency
         self._ir_forward_curves = dict()
         self._discount_curves = dict()
         self._ir_caplet_vol_surface = dict()
@@ -47,3 +40,10 @@ class Environment:
 
     def get_caplet_vol_surface(self, index):
         return self._ir_caplet_vol_surface[index]
+
+def HistVaREnvironment(Environment):
+    def __init__(self, pricing_currency=EUR, historic_returns=None):
+        super().__init__(pricing_currency)
+        self.historic_returns = historic_returns
+        
+        

@@ -83,3 +83,12 @@ class PlainVanillaCapletSLN(GenericCapletFloorlet):
             ((fr + self.shift) * phi(d1) - (self.strike + self.shift) * phi(d2))
 
         return pv
+
+
+class PlainVanillaFloorletSLN(GenericCapletFloorlet):
+    def present_value(self, env):
+        (d1, d2, df, fr, dcf) = self.compute_d1_d2_df_fr_dcf(env)
+        pv = dcf * self.nominal * df * \
+            (-(fr + self.shift) * phi(-d1) + (self.strike + self.shift) * phi(-d2))
+
+        return pv
