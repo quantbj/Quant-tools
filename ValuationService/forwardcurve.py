@@ -1,7 +1,7 @@
 
 from Utils.value_object import ValueObject
 from Utils.date_utils import ACT360
-from numpy import interp
+from numpy import interp, array, searchsorted
 
 
 class IRForwardCurve(ValueObject):
@@ -25,6 +25,22 @@ class IRDiscountFactorForwardCurve(IRForwardCurve):
         fr = (df1 / df2 - 1) / self.dcc.dcf(date_period)
 
         return fr
+
+
+class SimIRDiscountFactorForwardCurve(IRDiscountFactorForwardCurve):
+    def __init__(self, discount_factors, dcc=ACT360):
+        pass
+
+    def get_discount_factor(self, d):
+        xp = array([df[0].toordinal() for df in self.discount_factors])
+        yp = array([df[1] for df in self.discount_factors])
+
+        x = d.toordinal()
+        i = searchsorted(xp, x)
+        y = yp[i - 1, :] + (yp[i, :] - yp[i - 1, :]) * \
+            (x - xp[i - 1]) / (xp[i] - xp[i - 1])
+
+        return y
 
 
 class FXForwardCurve(ValueObject):

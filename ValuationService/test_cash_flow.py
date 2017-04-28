@@ -1,5 +1,5 @@
 from ValuationService.cash_flow import FixedCashFlow, FloatingCashFlow, \
-                                        PlainVanillaCapletSLN, PlainVanillaFloorletSLN
+    PlainVanillaCapletSLN, PlainVanillaFloorletSLN
 from ValuationService.ir_indices import EURIBOR6M
 from ValuationService.ccy import EUR, USD
 from Utils.date_utils import DatePeriod

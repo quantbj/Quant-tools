@@ -66,7 +66,7 @@ class IntTestCapPricing(TestCase):
 
         return caplets
 
-    def test_capfloor_pricing(self):
+    def test_captrade_pricing(self):
         caplets = self.generate_caplets(env=self.env, n_caplets=3, strike=0.0)
         cap = IRCapTrade(caplets)
         pv = cap.present_value(self.env)

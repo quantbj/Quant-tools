@@ -1,6 +1,7 @@
 from ValuationService.forwardcurve import IRForwardCurve, FXForwardCurve
 from ValuationService.ccy import EUR
 
+
 class Environment:
     def __init__(self, pricing_currency=EUR):
         self._pricing_currency = pricing_currency
@@ -40,9 +41,3 @@ class Environment:
 
     def get_caplet_vol_surface(self, index):
         return self._ir_caplet_vol_surface[index]
-
-def HistVaREnvironment(Environment):
-    def __init__(self, pricing_currency=EUR, historic_returns=None):
-        super().__init__(pricing_currency)
-        self.historic_returns = historic_returns
-        
