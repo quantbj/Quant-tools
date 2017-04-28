@@ -70,8 +70,8 @@ class ValueObject(object):
 
         return self
 
-    def __setattr__(self, name, value):
-        raise CannotBeChangeException()
+    # def __setattr__(self, name, value):
+    #     raise CannotBeChangeException()
 
     def __eq__(self, other):
         if other:

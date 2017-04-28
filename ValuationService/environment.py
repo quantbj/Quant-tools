@@ -46,4 +46,3 @@ def HistVaREnvironment(Environment):
         super().__init__(pricing_currency)
         self.historic_returns = historic_returns
         
-        
