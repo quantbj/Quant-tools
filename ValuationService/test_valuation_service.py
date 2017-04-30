@@ -68,7 +68,12 @@ class IntTestCapPricing(TestCase):
 
     def test_captrade_pricing(self):
         caplets = self.generate_caplets(env=self.env, n_caplets=3, strike=0.0)
+        
+        #shocked_env = ShockedIRCurve(env, {EURIBOR6M: (ALWAYS, 1e-4)})
+        
         cap = IRCapTrade(caplets)
         pv = cap.present_value(self.env)
+        # pv_shocked = cap.present_value(self.shocked_env)
 
         self.assertAlmostEqual(EXPECTED_PV_PLAIN_VANILLA_CAP, pv)
+        # print(pv, pv_shocked)

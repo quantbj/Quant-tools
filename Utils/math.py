@@ -1,4 +1,5 @@
-from math import log, sqrt, erf
+from numpy import log, sqrt
+from scipy.special import erf
 
 
 def phi(x):

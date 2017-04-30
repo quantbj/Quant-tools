@@ -7,17 +7,12 @@ from numpy import interp, array, searchsorted
 class IRForwardCurve(ValueObject):
     def __init__(self, ccy, name):
         pass
-
-
-class IRDiscountFactorForwardCurve(IRForwardCurve):
-    def __init__(self, discount_factors, dcc=ACT360):
-        pass
+    
+    def _compute_discount_factor(self, d):
+        raise NotImplementedError
 
     def get_discount_factor(self, d):
-        xp = [df[0].toordinal() for df in self.discount_factors]
-        fp = [df[1] for df in self.discount_factors]
-        f = interp(d.toordinal(), xp, fp)
-        return f
+        return self._compute_discount_factor(d)
 
     def get_forward_rate(self, date_period):
         df1 = self.get_discount_factor(date_period.start)
@@ -27,11 +22,22 @@ class IRDiscountFactorForwardCurve(IRForwardCurve):
         return fr
 
 
+class IRDiscountFactorForwardCurve(IRForwardCurve):
+    def __init__(self, discount_factors, dcc=ACT360):
+        pass
+
+    def _compute_discount_factor(self, d):
+        xp = [df[0].toordinal() for df in self.discount_factors]
+        fp = [df[1] for df in self.discount_factors]
+        f = interp(d.toordinal(), xp, fp)
+        return f
+
+
 class SimIRDiscountFactorForwardCurve(IRDiscountFactorForwardCurve):
     def __init__(self, discount_factors, dcc=ACT360):
         pass
 
-    def get_discount_factor(self, d):
+    def _compute_discount_factor(self, d):
         xp = array([df[0].toordinal() for df in self.discount_factors])
         yp = array([df[1] for df in self.discount_factors])
 
@@ -41,7 +47,6 @@ class SimIRDiscountFactorForwardCurve(IRDiscountFactorForwardCurve):
             (x - xp[i - 1]) / (xp[i] - xp[i - 1])
 
         return y
-
 
 class FXForwardCurve(ValueObject):
     def __init__(self, ccy_domestic, ccy_foreign):

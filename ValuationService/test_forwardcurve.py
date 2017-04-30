@@ -40,12 +40,10 @@ class TestForwardCurve(TestCase):
         dp = DatePeriod(d1, d2)
         df1 = fc.get_discount_factor(d1)
         df2 = fc.get_discount_factor(d2)
-        print('forward test:', df1, df2)
 
         fr_test = 1 / ACT360.dcf(dp) * (df1 / df2 - 1)
         fr_impl = fc.get_forward_rate(dp)
 
-        print('fr_test', fr_test)
         self.assertAlmostEqual(fr_test, fr_impl)
 
 
@@ -85,5 +83,4 @@ class TestSimForwardCurve(TestCase):
         fr_test = 1 / ACT360.dcf(dp) * (df1 / df2 - 1)
         fr_impl = fc.get_forward_rate(dp)
 
-        print(fr_impl)
         self.assertTrue(alltrue(fr_test == fr_impl))

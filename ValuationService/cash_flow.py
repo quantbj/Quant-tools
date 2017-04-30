@@ -1,5 +1,5 @@
 from Utils.value_object import ValueObject
-from math import log, sqrt
+from numpy import log, sqrt
 from Utils.math import phi
 from Utils.date_utils import DatePeriod
 
