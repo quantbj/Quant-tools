@@ -17,7 +17,7 @@ class TestForwardCurve(TestCase):
             (date(2017, 6, 24), 1.01),
             (date(2018, 6, 25), 0.99),
             (date(2019, 6, 25), 1.1)]
-        fc = IRDiscountFactorForwardCurve(discount_factors=dfs)
+        fc = IRDiscountFactorForwardCurve(name='eonia', discount_factors=dfs)
 
         df = fc.get_discount_factor(date(2017, 6, 24))
         self.assertEqual(1.01, df)
@@ -33,7 +33,8 @@ class TestForwardCurve(TestCase):
             (date(2017, 6, 24), 1.0028),
             (date(2017, 7, 25), 1.0032),
             (date(2019, 6, 25), 1.1)]
-        fc = IRDiscountFactorForwardCurve(discount_factors=dfs, dcc=ACT360)
+        fc = IRDiscountFactorForwardCurve(
+            name='eonia', discount_factors=dfs, dcc=ACT360)
 
         d1 = date(2017, 6, 24)
         d2 = date(2017, 7, 25)
@@ -56,7 +57,8 @@ class TestSimForwardCurve(TestCase):
             (date(2017, 6, 24), [1.01, 2.01]),
             (date(2018, 6, 25), [0.99, 1.99]),
             (date(2019, 6, 25), [1.1, 2.1])]
-        fc = SimIRDiscountFactorForwardCurve(discount_factors=dfs)
+        fc = SimIRDiscountFactorForwardCurve(
+            name='eonia', discount_factors=dfs)
 
         df = fc.get_discount_factor(date(2017, 6, 24))
         self.assertTrue(alltrue([1.01, 2.01] == df))
@@ -72,7 +74,8 @@ class TestSimForwardCurve(TestCase):
             (date(2017, 6, 24), array([1.0028, 0.98])),
             (date(2017, 7, 25), array([1.0032, 0.97])),
             (date(2019, 6, 25), array([1.1, 0.96]))]
-        fc = SimIRDiscountFactorForwardCurve(discount_factors=dfs, dcc=ACT360)
+        fc = SimIRDiscountFactorForwardCurve(
+            name='eonia', discount_factors=dfs, dcc=ACT360)
 
         d1 = date(2017, 6, 24)
         d2 = date(2017, 7, 25)

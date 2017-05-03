@@ -56,7 +56,7 @@ class TestFixedCashFlow(TestCase):
         fcf = FixedCashFlow(d, 100.0, EUR)
         pv = fcf.present_value(env)
         assert_array_almost_equal(pv, [95.0, 99.0])
-        
+
 
 class TestFloatingCashFlow(TestCase):
     def test_present_value(self):
@@ -113,9 +113,10 @@ class TestFloatingCashFlow(TestCase):
             1000000,
             EUR)
         pv = fcf.present_value(env)
-        res = array([0.01 * 1000000 * 183 / 360 * 0.95, 0.02 * 1000000 * 183 / 360 * 0.99])
+        res = array([0.01 * 1000000 * 183 / 360 * 0.95,
+                     0.02 * 1000000 * 183 / 360 * 0.99])
         assert_array_almost_equal(pv, res)
-        
+
 
 class TestCaplet(TestCase):
 
@@ -247,14 +248,14 @@ class TestCaplet(TestCase):
         fc = Mock()
         volsurf = Mock()
         fxc.get_forward_fx_rate = Mock(return_value=1.0)
-        fc.get_forward_rate = Mock(return_value=array([fr1,fr2]))
+        fc.get_forward_rate = Mock(return_value=array([fr1, fr2]))
         volsurf.get_vol = Mock(return_value=sigma)
         env.get_caplet_vol_surface = Mock(return_value=volsurf)
         env.get_fx_forward_curve = Mock(return_value=fxc)
         env.get_pricing_currency = Mock(return_value=EUR)
         env.get_pricing_date = Mock(return_value=pricing_date)
         env.get_ir_index_forward_curve = Mock(return_value=fc)
-        dc.get_discount_factor = Mock(return_value=array([df1,df2]))
+        dc.get_discount_factor = Mock(return_value=array([df1, df2]))
         env.get_discount_curve = Mock(return_value=dc)
 
         caplet = PlainVanillaCapletSLN(
@@ -270,10 +271,10 @@ class TestCaplet(TestCase):
         pv = caplet.present_value(env)
 
         d1_1 = (log((fr1 + shift) / (strike + shift)) +
-              sigma**2 * T / 2) / (sigma * sqrt(T))
+                sigma**2 * T / 2) / (sigma * sqrt(T))
         d2_1 = d1_1 - sigma * sqrt(T)
         d1_2 = (log((fr2 + shift) / (strike + shift)) +
-              sigma**2 * T / 2) / (sigma * sqrt(T))
+                sigma**2 * T / 2) / (sigma * sqrt(T))
         d2_2 = d1_2 - sigma * sqrt(T)
         pv_test1 = dcf * df1 * nominal * \
             ((fr1 + shift) * phi(d1_1) - (strike + shift) * phi(d2_1))

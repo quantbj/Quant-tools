@@ -32,11 +32,11 @@ class IntTestCapPricing(TestCase):
 
         # Discount curve
         eur_discount_curve = IRDiscountFactorForwardCurve(
-            discount_factors=dfs_disc)
+            name='eonia', discount_factors=dfs_disc)
         self.env.set_discount_curve(EUR, eur_discount_curve)
         # Forward curve
         eurib6m_forward_curve = IRDiscountFactorForwardCurve(
-            discount_factors=dfs_forw)
+            name='euribor6m', discount_factors=dfs_forw)
         self.env.add_ir_forward_curve(EURIBOR6M, eurib6m_forward_curve)
         # Caplet surface
         caplet_surface = CapletVolSurface(
@@ -68,9 +68,9 @@ class IntTestCapPricing(TestCase):
 
     def test_captrade_pricing(self):
         caplets = self.generate_caplets(env=self.env, n_caplets=3, strike=0.0)
-        
+
         #shocked_env = ShockedIRCurve(env, {EURIBOR6M: (ALWAYS, 1e-4)})
-        
+
         cap = IRCapTrade(caplets)
         pv = cap.present_value(self.env)
         # pv_shocked = cap.present_value(self.shocked_env)

@@ -4,10 +4,16 @@ from Utils.date_utils import ACT360
 from numpy import interp, array, searchsorted
 
 
-class IRForwardCurve(ValueObject):
-    def __init__(self, ccy, name):
+class IRForwardCurve():
+    def __init__(self):
         pass
-    
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def __eq__(self, other):
+        return self.name == other.name
+
     def _compute_discount_factor(self, d):
         raise NotImplementedError
 
@@ -23,8 +29,10 @@ class IRForwardCurve(ValueObject):
 
 
 class IRDiscountFactorForwardCurve(IRForwardCurve):
-    def __init__(self, discount_factors, dcc=ACT360):
-        pass
+    def __init__(self, name, discount_factors, dcc=ACT360):
+        self.name = name
+        self.discount_factors = discount_factors
+        self.dcc = dcc
 
     def _compute_discount_factor(self, d):
         xp = [df[0].toordinal() for df in self.discount_factors]
@@ -34,9 +42,6 @@ class IRDiscountFactorForwardCurve(IRForwardCurve):
 
 
 class SimIRDiscountFactorForwardCurve(IRDiscountFactorForwardCurve):
-    def __init__(self, discount_factors, dcc=ACT360):
-        pass
-
     def _compute_discount_factor(self, d):
         xp = array([df[0].toordinal() for df in self.discount_factors])
         yp = array([df[1] for df in self.discount_factors])
@@ -47,6 +52,7 @@ class SimIRDiscountFactorForwardCurve(IRDiscountFactorForwardCurve):
             (x - xp[i - 1]) / (xp[i] - xp[i - 1])
 
         return y
+
 
 class FXForwardCurve(ValueObject):
     def __init__(self, ccy_domestic, ccy_foreign):
