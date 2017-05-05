@@ -1,4 +1,5 @@
-from ValuationService.forwardcurve import IRDiscountFactorForwardCurve, SimIRDiscountFactorForwardCurve
+from ValuationService.forwardcurve import IRDiscountFactorForwardCurve, \
+    SimIRDiscountFactorForwardCurve, IRForwardCurve
 from ValuationService.ccy import EUR
 from Utils.date_utils import DatePeriod, ACT360
 from datetime import date
@@ -9,6 +10,10 @@ from numpy import searchsorted
 
 
 class TestForwardCurve(TestCase):
+    def test_abstract(self):
+        curve = IRForwardCurve()
+        self.assertRaises(NotImplementedError, curve.get_discount_factor, None)
+
     def test_get_discount_factor(self):
         today = date(2017, 4, 21)
         dfs = [

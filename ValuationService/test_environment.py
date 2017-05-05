@@ -94,13 +94,12 @@ class TestVaREnvFactory(TestCase):
         self.assertEqual(
             n_paths, len(var_euribor6m.get_discount_factor(date(2017, 5, 24))))
         self.assertAlmostEqual(
-            euribor6m.get_discount_factor(date(2017,5,24)), 
-            mean(var_euribor6m.get_discount_factor(date(2017,5,24))),4)
+            euribor6m.get_discount_factor(date(2017, 5, 24)),
+            mean(var_euribor6m.get_discount_factor(date(2017, 5, 24))), 4)
 
         var_eonia = var_env.get_discount_curve(EUR)
         self.assertEqual(
             n_paths, len(var_eonia.get_discount_factor(date(2017, 5, 24))))
-        print(var_eonia.get_discount_factor(date(2017, 5, 24)))
         self.assertAlmostEqual(
-            eonia.get_discount_factor(date(2017, 5, 24)), 
+            eonia.get_discount_factor(date(2017, 5, 24)),
             mean(var_eonia.get_discount_factor(date(2017, 5, 24))), 4)

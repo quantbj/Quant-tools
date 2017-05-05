@@ -5,9 +5,6 @@ from numpy import interp, array, searchsorted
 
 
 class IRForwardCurve():
-    def __init__(self):
-        pass
-
     def __hash__(self):
         return hash(self.name)
 
