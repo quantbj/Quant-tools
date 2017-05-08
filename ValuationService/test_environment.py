@@ -7,7 +7,8 @@ from Utils.correlation import CKey
 from unittest import TestCase
 from unittest.mock import Mock
 from datetime import date
-from numpy import array, mean
+from numpy import array, mean, vstack, cov, sqrt
+from numpy.random import seed
 from collections import OrderedDict
 
 
@@ -60,6 +61,7 @@ class EnvTest(TestCase):
 
 class TestVaREnvFactory(TestCase):
     def test_produce(self):
+        seed(212)
         today = date(2017, 4, 21)
         dfs_eonia = [
             (date(2017, 4, 24), 1.),
@@ -73,7 +75,7 @@ class TestVaREnvFactory(TestCase):
             (date(2017, 6, 24), 1.0028),
             (date(2017, 7, 25), 1.0032),
             (date(2019, 6, 25), 1.1)]
-        n_paths = 10000
+        n_paths = 100000
         env = Environment()
         env.set_pricing_date(today)
         eonia = IRDiscountFactorForwardCurve(
@@ -84,7 +86,7 @@ class TestVaREnvFactory(TestCase):
         env.add_ir_forward_curve(EURIBOR6M, euribor6m)
 
         cov_matrix = OrderedDict({CKey(euribor6m, euribor6m): 0.01**2, CKey(eonia, eonia): 0.005**2,
-                                  CKey(euribor6m, eonia): 0.01 * 0.005 * 0.8})
+                                  CKey(euribor6m, eonia): 0.01 * 0.005 * 0.7})
         env_factory = VaREnvironmentCurvesFactory(env)
         env_factory.set_number_of_paths(n_paths)
         env_factory.set_cov_matrix(cov_matrix)
@@ -92,14 +94,19 @@ class TestVaREnvFactory(TestCase):
 
         var_euribor6m = var_env.get_ir_index_forward_curve(EURIBOR6M)
         self.assertEqual(
-            n_paths, len(var_euribor6m.get_discount_factor(date(2017, 5, 24))))
+            n_paths, len(var_euribor6m.get_discount_factor(date(2017, 5, 25))))
         self.assertAlmostEqual(
             euribor6m.get_discount_factor(date(2017, 5, 24)),
-            mean(var_euribor6m.get_discount_factor(date(2017, 5, 24))), 4)
+            mean(var_euribor6m.get_discount_factor(date(2017, 5, 25))), 4)
 
         var_eonia = var_env.get_discount_curve(EUR)
         self.assertEqual(
-            n_paths, len(var_eonia.get_discount_factor(date(2017, 5, 24))))
+            n_paths, len(var_eonia.get_discount_factor(date(2017, 5, 25))))
         self.assertAlmostEqual(
             eonia.get_discount_factor(date(2017, 5, 24)),
-            mean(var_eonia.get_discount_factor(date(2017, 5, 24))), 4)
+            mean(var_eonia.get_discount_factor(date(2017, 5, 25))), 4)
+
+        X = vstack([var_eonia.get_discount_factor(date(2017,5,25)), var_euribor6m.get_discount_factor(date(2017, 5, 25))])
+        c = (cov(X))
+
+        self.assertAlmostEqual(c[1,0]/sqrt(c[0,0]*c[1,1]), 0.7, 2)

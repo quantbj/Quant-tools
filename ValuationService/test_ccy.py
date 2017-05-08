@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 from datetime import date
-from ccy import Ccy
+from ValuationService.ccy import Ccy
 
 
 class TestCcy(TestCase):

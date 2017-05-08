@@ -3,14 +3,16 @@ from ValuationService.ccy import EUR
 from Utils.correlation import CKey
 from numpy.random import multivariate_normal
 from numpy import zeros, array
-
+from numpy.random import seed
+from datetime import timedelta
+from collections import OrderedDict
 
 class Environment:
     def __init__(self, pricing_currency=EUR):
         self._pricing_currency = pricing_currency
-        self._ir_forward_curves = dict()
-        self._discount_curves = dict()
-        self._ir_caplet_vol_surface = dict()
+        self._ir_forward_curves = OrderedDict()
+        self._discount_curves = OrderedDict()
+        self._ir_caplet_vol_surface = OrderedDict()
 
     def set_pricing_currency(self, ccy):
         self._pricing_currency = ccy
@@ -65,18 +67,19 @@ class VaREnvironmentCurvesFactory():
 
         return (mean, cov)
 
-    def _add_zero_rate_to_discount_factors(self, dfs, rate):
+    def _add_zero_rate_to_discount_factors_and_shift_1d(self, dfs, rate):
         implied_rates = [
             (d, df**(-365.0 / (d - self.env.pricing_date).days) - 1.0) for d, df in dfs]
-        new_dfs = [(d, (1.0 + r + rate)**(-(d - self.env.pricing_date).days / 365.0))
+        new_dfs = [(d+timedelta(days=1), (1.0 + r + rate)**(-(d - self.env.pricing_date).days / 365.0))
                    for d, r in implied_rates]
 
         return new_dfs
 
-    def produce(self):
+    def produce(self, random_seed = 212):
+        seed(random_seed)
         new_env = Environment()
         new_env.set_pricing_currency(self.env.get_pricing_currency())
-        new_env.set_pricing_date(self.env.get_pricing_date())
+        new_env.set_pricing_date(self.env.get_pricing_date() + timedelta(days=1))
         new_env._ir_caplet_vol_surface = self.env._ir_caplet_vol_surface
 
         curve_elems = [key.e1 for key in self.cov_matrix if key.e1 == key.e2]
@@ -85,14 +88,14 @@ class VaREnvironmentCurvesFactory():
         curve_dict = dict(zip(curve_elems, rng))
 
         for index, curve in self.env._ir_forward_curves.items():
-            new_dfs = self._add_zero_rate_to_discount_factors(
+            new_dfs = self._add_zero_rate_to_discount_factors_and_shift_1d(
                 curve.discount_factors, curve_dict[curve])
             new_env.add_ir_forward_curve(
                 index, SimIRDiscountFactorForwardCurve(
                     name=curve.name, discount_factors=new_dfs))
 
         for ccy, curve in self.env._discount_curves.items():
-            new_dfs = self._add_zero_rate_to_discount_factors(
+            new_dfs = self._add_zero_rate_to_discount_factors_and_shift_1d(
                 curve.discount_factors, curve_dict[curve])
             new_env.set_discount_curve(
                 ccy, SimIRDiscountFactorForwardCurve(

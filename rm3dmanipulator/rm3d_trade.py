@@ -1,4 +1,4 @@
-from constants import field_index
+from rm3dmanipulator.constants import field_index
 
 
 class GenericRM3DTrade:

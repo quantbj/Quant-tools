@@ -40,13 +40,14 @@ class IRDiscountFactorForwardCurve(IRForwardCurve):
 
 class SimIRDiscountFactorForwardCurve(IRDiscountFactorForwardCurve):
     def _compute_discount_factor(self, d):
-        xp = array([df[0].toordinal() for df in self.discount_factors])
+        xp = ([df[0].toordinal() for df in self.discount_factors])
         yp = array([df[1] for df in self.discount_factors])
 
         x = d.toordinal()
         i = searchsorted(xp, x)
-        y = yp[i - 1, :] + (yp[i, :] - yp[i - 1, :]) * \
-            (x - xp[i - 1]) / (xp[i] - xp[i - 1])
+        t = (x - xp[i - 1]) / (xp[i] - xp[i - 1])
+        y = yp[i - 1, :] * (1-t) + yp[i, :] * t
+            
 
         return y
 

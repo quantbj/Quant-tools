@@ -1,5 +1,5 @@
 import unittest
-from rm3d_reader import RM3DReader
+from rm3dmanipulator.rm3d_reader import RM3DReader
 
 
 class TestWriter(unittest.TestCase):

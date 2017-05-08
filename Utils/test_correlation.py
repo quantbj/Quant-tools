@@ -1,4 +1,4 @@
-from correlation import CKey
+from Utils.correlation import CKey
 from unittest import TestCase
 
 class TestCKey(TestCase):

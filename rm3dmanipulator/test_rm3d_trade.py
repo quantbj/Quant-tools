@@ -1,4 +1,4 @@
-from rm3d_trade import GenericRM3DTrade
+from rm3dmanipulator.rm3d_trade import GenericRM3DTrade
 import unittest
 
 
